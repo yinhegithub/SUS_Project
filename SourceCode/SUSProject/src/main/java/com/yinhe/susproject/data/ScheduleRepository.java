@@ -1,6 +1,7 @@
 package com.yinhe.susproject.data;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -13,6 +14,8 @@ import com.yinhe.susproject.model.Schedule;
 
 
 public class ScheduleRepository {
+	  @Inject
+	    private Logger log;
 	 @Inject
 	    private EntityManager em;
 	    
@@ -26,15 +29,17 @@ public class ScheduleRepository {
 	       Root<Schedule> schd = criteria.from(Schedule.class);
 	      // Swap criteria statements if you would like to try out type-safe criteria queries, a new
 	      // feature in JPA 2.0
-	      // criteria.select(member).orderBy(cb.asc(member.get(Member_.name)));  	   	 
-	 	 
+	      // criteria.select(member).orderBy(cb.asc(member.get(Member_.name))); 
+	       log.info("findByfIdAndHid factoryId"+factoryId);
+	       log.info("findByfIdAndHid hardwareId:"+hardwareId);
 	       criteria.select(schd).where(
-	 			 cb.equal(schd.get("factoryId"), factoryId),
-	 			 cb.equal(schd.get("hardwareId"), hardwareId));
+	    		  cb.equal(schd.get("hardwareId"), hardwareId),
+	 			 cb.equal(schd.get("factoryId"), factoryId)
+	 			);
 	       try{
 		 		return em.createQuery(criteria).getResultList();
 		 	}catch(NoResultException e)
-			{
+			{	log.info("get schedule is null");
 				return null;
 			}
 	       

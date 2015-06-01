@@ -23,7 +23,7 @@ public class RulesnRepository {
 	        return em.find(Rulesn.class, id);
 	    }
 	 
-	 public Rulesn findBySn(long sn,Long schId,String enable) {
+	 public Rulesn findBySn(String sn,Long schId,String enable) {
 	        CriteriaBuilder cb = em.getCriteriaBuilder();
 	        CriteriaQuery<Rulesn> criteria = cb.createQuery(Rulesn.class);
 	        Root<Rulesn> rulesn = criteria.from(Rulesn.class);
@@ -58,6 +58,7 @@ public class RulesnRepository {
 		{
 			em.remove(em.find(Rulesn.class, StbId));			
 		}
+		
 		public List<Rulesn> getRuleSns()
 		{
 			CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -76,5 +77,25 @@ public class RulesnRepository {
 	       }
 	     		
 		}
+
+		public List<Rulesn> getRuleSnsByInclude(String enable)
+		{
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+	        CriteriaQuery<Rulesn> criteria = cb.createQuery(Rulesn.class);
+	        Root<Rulesn> rulesn = criteria.from(Rulesn.class);
+	        // Swap criteria statements if you would like to try out type-safe criteria queries, a new
+	        // feature in JPA 2.0
+	        // criteria.select(member).where(cb.equal(member.get(Member_.name), email));
+	       criteria.select(rulesn).where(cb.equal(rulesn.get("enable"), enable));
+	       try{
+	        return em.createQuery(criteria).getResultList();
+	        
+	       }catch(NoResultException e)
+	       {
+	    	  return  null;
+	       }
+	     		
+		}
+	
 	
 }

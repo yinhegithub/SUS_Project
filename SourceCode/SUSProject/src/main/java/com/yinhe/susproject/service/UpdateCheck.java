@@ -16,6 +16,9 @@ import com.yinhe.susproject.data.ScheduleRepository;
 import com.yinhe.susproject.model.Packagefile;
 import com.yinhe.susproject.model.Packages;
 import com.yinhe.susproject.model.Results;
+import com.yinhe.susproject.model.Rulemac;
+import com.yinhe.susproject.model.Rulerange;
+import com.yinhe.susproject.model.Rulesn;
 import com.yinhe.susproject.model.Schedule;
 
 @Stateless
@@ -38,7 +41,7 @@ public class UpdateCheck {
 	  
 	  final private String ip="116.210.255.60";
 	  
-	  public Boolean checkRule(  long sn, long macs, int factoryId,  String hardware)
+	  public Boolean checkRule(  String sn, long macs, int factoryId,  String hardware)
 		{
 					
 			long schId =(long) -1;
@@ -88,39 +91,101 @@ public class UpdateCheck {
 				}//not found Schedule
 			 log.info("Find schId = "+schId);
 			 //规则判断  range -> sn -> mac 
-			if( null != rulerangerepository.findBySn(sn, schId, "N") 
-			   ||null != rulerangerepository.findByMac(macs, schId, "N"))
+			 List<Rulerange> rluerangesn = rulerangerepository.findBySn(sn, schId, "N") ;
+			 List<Rulerange> rluerangemac = rulerangerepository.findByMac(macs, schId, "N") ;
+			if(null != rluerangesn && rluerangesn.size() !=0)
+			{//机顶盒在不包含区间内	
+				for(Rulerange rs:rluerangesn)
+				{
+					if((sn.compareTo(rs.getStartSn())>=0) && (sn.compareTo(rs.getEndSn())<=0))
+					{
+						log.info("sn in 'N' include rulerange can't update");
+						return false; 
+					}
+				}
+				log.info("sn not in 'N' include can update ");
+				return true;
+			}
+			if(null != rluerangemac && rluerangemac.size() !=0)
 			{//机顶盒在不包含区间内
-				log.info("sn | mac not include rulerange");
-				return false;
-			}
-			if( null != rulerangerepository.findBySn(sn, schId, "Y") 
-				||null != rulerangerepository.findByMac(macs, schId, "Y"))
-			{//机顶盒在包含区间内,可以升级
-				log.info("sn | mac in include rulerange");
+				
+				for(Rulerange rs:rluerangemac)
+				{
+					if(macs >= rs.getStartMac() && macs <= rs.getEndMac())
+					{   log.info("mac in 'N' include rulerange can't update");
+						return false;
+					}
+				}
+				log.info("mac not in  'N' include can update ");
 				return true;
 			}
-			
-			if(null != rsnrepository.findBySn(sn, schId,"N"))
-			{//某个机顶盒不允许被升级
-				log.info("stbId"+sn+" not allow update");
+			//若设置范围，则 机顶盒在包含区间内,才可以升级
+			rluerangesn = rulerangerepository.findBySn(sn, schId, "Y") ;
+			rluerangemac = rulerangerepository.findByMac(macs, schId, "Y") ;
+			if(null != rluerangesn && rluerangesn.size() !=0)
+			{//sn 在区间内	
+				for(Rulerange rs:rluerangesn)
+				{
+					if((sn.compareTo(rs.getStartSn())>=0) && (sn.compareTo(rs.getEndSn())<=0))
+					{ log.info("sn  include rulerange can update ");
+						return true; 
+					}
+				}
+				log.info("sn not include rulerange can't update");
 				return false;
 			}
-			
-			if(null != rsnrepository.findBySn(sn, schId,"Y"))
-			{//某个机顶盒不允许被升级
-				log.info("stbId:"+sn+" can update");
-				return true;
-			}
-			if(null != rmacrepository.findByMac(macs, schId,"N"))
-			{//某个机顶盒不允许被升级
-				log.info("macs:"+macs+" not allow update");
+			if(null != rluerangemac  && rluerangemac.size() !=0)
+			{//mac在区间内
+				
+				for(Rulerange rs:rluerangemac)
+				{
+					if(macs >= rs.getStartMac() && macs <= rs.getEndMac())
+					{  log.info("mac  include rulerange can update ");
+						return true;
+					}
+				}
+				log.info("mac not include rulerange can't update ");
 				return false;
 			}
-			if(null != rmacrepository.findByMac(macs, schId,"Y"))
-			{//某个机顶盒不允许被升级
-				log.info("macs:"+macs+" can update");
-				return true;
+			 List<Rulesn> Rulesns = rsnrepository.getRuleSnsByInclude("N");			
+			if(Rulesns!=null && Rulesns.size() !=0)
+			{			
+				if(null != rsnrepository.findBySn(sn, schId,"N") )
+				{//某个机顶盒不允许被升级
+					log.info("stbId"+sn+" not allow update");
+					return false;
+				}
+			}
+			Rulesns = rsnrepository.getRuleSnsByInclude("Y");
+			if(Rulesns!=null && Rulesns.size() !=0)
+			{		
+				if(null != rsnrepository.findBySn(sn, schId,"Y") )
+				{//某个机顶盒允许被升级
+					log.info("stbId:"+sn+" can update");
+					return true;
+				}else
+				{   log.info("sn: not in rulesn "+sn+" can't update");
+					return false;}
+			}
+			 List<Rulemac> Rulemacs = rmacrepository.getRulemacsByInclude("N");
+			if(Rulemacs!= null && Rulemacs.size() != 0)
+			{
+				if(null != rmacrepository.findByMac(macs, schId,"N"))
+				{//某个机顶盒不允许被升级
+					log.info("macs:"+macs+" not allow update");
+					return false;
+				}
+			}
+			Rulemacs = rmacrepository.getRulemacsByInclude("Y");
+			if(Rulemacs!=null && Rulemacs.size() != 0)
+			{	
+				if(null != rmacrepository.findByMac(macs, schId,"Y"))
+				{//某个机顶盒不允许被升级
+					log.info("macs:"+macs+" can update");
+					return true;
+				}else
+				{   log.info("macs: not in rulemac "+macs+" can't update");
+					return false;}
 			}
 			 log.info("Find schId = "+schId);
 			return true;

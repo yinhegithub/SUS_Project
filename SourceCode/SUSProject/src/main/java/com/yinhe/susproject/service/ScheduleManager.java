@@ -97,7 +97,7 @@ public class ScheduleManager {
 		return rulesnRepository.getRuleSns();
 	}
 
-	public void addRulesn(long stbId, long schId, String enable) {
+	public void addRulesn(String stbId, long schId, String enable) {
 		try {
 			Schedule sch = scheduleRepository.findById(schId);
 			Rulesn rulesn = new Rulesn(sch, stbId, enable);

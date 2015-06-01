@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import com.yinhe.susproject.model.Rulemac;
+import com.yinhe.susproject.model.Rulesn;
 
 public class RulemacRepository {
 	@Inject
@@ -52,6 +53,21 @@ public class RulemacRepository {
 					return null;
 			}
 	 }
+	 public List<Rulemac> getRulemacsByInclude(String enable)
+		{
+		 CriteriaBuilder cb = em.getCriteriaBuilder();
+	        CriteriaQuery< Rulemac> criteria = cb.createQuery( Rulemac.class);
+	        Root< Rulemac> rulemac = criteria.from( Rulemac.class);
+	        // Swap criteria statements if you would like to try out type-safe criteria queries, a new
+	        // feature in JPA 2.0
+	        criteria.select(rulemac).where(cb.equal(rulemac.get("enable"), enable));
+	        try{
+	        	 return em.createQuery(criteria).getResultList();
+			}catch(NoResultException e)
+			{
+					return null;
+			}		
+		}
 	public void addRulemac(Rulemac rulemac)
 	{
 		em.persist(rulemac);

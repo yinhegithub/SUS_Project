@@ -27,18 +27,18 @@ public class Rulesn implements java.io.Serializable {
 	private static final long serialVersionUID = 8742133992905301322L;
 	private Long id;
 	private Schedule schedule;
-	private long sn;
+	private String sn;
 	private String enable;
 
 	public Rulesn() {
 	}
 
-	public Rulesn(Schedule schedule, long sn) {
+	public Rulesn(Schedule schedule, String sn) {
 		this.schedule = schedule;
 		this.sn = sn;
 	}
 
-	public Rulesn(Schedule schedule, long sn, String enable) {
+	public Rulesn(Schedule schedule, String sn, String enable) {
 		this.schedule = schedule;
 		this.sn = sn;
 		this.enable = enable;
@@ -65,12 +65,12 @@ public class Rulesn implements java.io.Serializable {
 		this.schedule = schedule;
 	}
 
-	@Column(name = "sn", nullable = false)
-	public long getSn() {
+	@Column(name = "sn", length = 64,nullable = false)
+	public String getSn() {
 		return this.sn;
 	}
 
-	public void setSn(long sn) {
+	public void setSn(String sn) {
 		this.sn = sn;
 	}
 

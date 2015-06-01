@@ -30,8 +30,8 @@ public class Rulerange implements java.io.Serializable {
 	private Long startMac;
 	private Long endMac;
 	private String macInclude;
-	private Long startSn;
-	private Long endSn;
+	private String startSn;
+	private String endSn;
 	private String snInclude;
 
 	public Rulerange() {
@@ -42,7 +42,7 @@ public class Rulerange implements java.io.Serializable {
 	}
 
 	public Rulerange(Schedule schedule, Long startMac, Long endMac,
-			String macInclude, Long startSn, Long endSn, String snInclude) {
+			String macInclude, String startSn, String endSn, String snInclude) {
 		this.schedule = schedule;
 		this.startMac = startMac;
 		this.endMac = endMac;
@@ -100,21 +100,21 @@ public class Rulerange implements java.io.Serializable {
 		this.macInclude = macInclude;
 	}
 
-	@Column(name = "startSN")
-	public Long getStartSn() {
+	@Column(name = "startSN",length = 64)
+	public String getStartSn() {
 		return this.startSn;
 	}
 
-	public void setStartSn(Long startSn) {
+	public void setStartSn(String startSn) {
 		this.startSn = startSn;
 	}
 
-	@Column(name = "endSN")
-	public Long getEndSn() {
+	@Column(name = "endSN",length = 64)
+	public String getEndSn() {
 		return this.endSn;
 	}
 
-	public void setEndSn(Long endSn) {
+	public void setEndSn(String endSn) {
 		this.endSn = endSn;
 	}
 

@@ -15,11 +15,11 @@ public class RulerangeRepository {
 	@Inject
 	private EntityManager em;
 
-	public Rulerange findById(Integer id) {
+	public Rulerange findById(long id) {
 		return em.find(Rulerange.class, id);
 	}
 
-	public Rulerange findBySn(long sn, long schId,String Include) {
+	public List<Rulerange> findBySn(String sn, long schId,String Include) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Rulerange> criteria = cb.createQuery(Rulerange.class);
 		Root<Rulerange> rulerange = criteria.from(Rulerange.class);
@@ -33,26 +33,17 @@ public class RulerangeRepository {
 				);
 		
 		List<Rulerange> rlueranges = null;
-		Rulerange rluerange = null;
-		
+				
 		try {
-			rlueranges = em.createQuery(criteria).getResultList();
-			for(Rulerange rs:rlueranges)
-			{
-				if(sn >= rs.getStartSn() && sn <= rs.getEndSn())
-				{
-					rluerange = rs;
-					break;
-				}
-			}
+			rlueranges = em.createQuery(criteria).getResultList();			
 		} catch (Exception e) {
 			System.out.println("not found Rulerange ");
-			return rluerange;
+			return rlueranges;
 		}
-		return rluerange;
+		return rlueranges;
 	}
 
-	public Rulerange findByMac(long mac, long schId ,String Include) {
+	public List<Rulerange> findByMac(long mac, long schId ,String Include) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Rulerange> criteria = cb.createQuery(Rulerange.class);
 		Root<Rulerange> rulerange = criteria.from(Rulerange.class);
@@ -65,23 +56,15 @@ public class RulerangeRepository {
 				cb.equal(rulerange.get("snInclude"), Include)
 				);
 		
-		List<Rulerange> rlueranges = null;
-		Rulerange rluerange = null;
+		List<Rulerange> rlueranges = null;		
 		try {
 			rlueranges = em.createQuery(criteria).getResultList();
-			for(Rulerange rs:rlueranges)
-			{
-				if(mac >= rs.getStartMac() && mac <= rs.getEndMac())
-				{
-					rluerange = rs;
-					break;
-				}
-			}
+			
 		} catch (Exception e) {
 			System.out.println("not found Rulerange ");
-			return rluerange;
+			return rlueranges;
 		}
-		return rluerange;
+		return rlueranges;
 	}
 	public List<Rulerange> getAllRuleranges()
 	 {
@@ -109,7 +92,7 @@ public class RulerangeRepository {
 	}
 	public void deleteRulerange(long id)
 	{
-		em.remove(id);
+		em.remove(findById(id));
 	}
 	
 	

@@ -38,14 +38,12 @@ public class UpdateRESTService {
 			 log.info("software="+software); 
 			 
 			 String subfac = factoryId.replaceAll("0x", "");
-			 int fId  = Integer.parseInt(subfac);			 
-			 long sn = Long.parseLong(stbId,16);
+			 int fId  = Integer.parseInt(subfac);			 			
 			 String submac = mac.replaceAll(":", "");
 			 long macs = Long.parseLong(submac,16);
-			 log.info("sn="+sn); 
 			 log.info("macs="+macs); 
 			 log.info("fId="+fId); 
-			 if(updateCheck.checkRule(sn, macs, fId, hardware))
+			 if(updateCheck.checkRule(stbId, macs, fId, hardware))
 			 {
 				 hr = updateCheck.getResult(fId, hardware, software);
 			 }else
