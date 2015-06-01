@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<title>admin console</title>
+</h:head>
+<h:body>
+
+	<h1>welcom admin</h1>
+	<h:form>
+		<h:panelGrid columns="3">
+			<h:outputLabel for="username" value="#{msgs.name}:" />
+			<h:inputText id="username" value="#{currentUser.username}" />
+			<h:message for="username" />
+
+			<h:outputLabel for="password" value="#{msgs.passwd}:" />
+			<h:inputText id="password" value="#{currentUser.password}" />
+			<h:message for="password" />
+		</h:panelGrid>
+	</h:form>
+
+</h:body>
+</h:html>

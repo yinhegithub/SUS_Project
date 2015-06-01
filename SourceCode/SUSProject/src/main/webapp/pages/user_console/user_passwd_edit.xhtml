@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<title>SUS</title>
+</h:head>
+<h:body>
+
+	<h1>#{msgs.loginMsg}</h1>
+	<h:form>
+		<h:panelGrid columns="3">
+			<h:outputLabel for="username" value="#{msgs.name}:" />
+			<h:inputText id="username" value="#{currentUser.username}" />
+			<h:message for="username" />
+
+			<h:outputLabel for="password" value="#{msgs.email}:" />
+			<h:inputText id="password" value="#{password}" />
+			<h:message for="password" />
+		</h:panelGrid>
+
+		<h:commandButton value="#{msgs.login}" action="#{loginBean.login}" />
+	</h:form>
+
+</h:body>
+</h:html>

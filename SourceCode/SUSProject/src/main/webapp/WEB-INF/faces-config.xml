@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!-- JBoss, Home of Professional Open Source Copyright 2013, Red Hat, Inc. 
+	and/or its affiliates, and individual contributors by the @authors tag. See 
+	the copyright.txt in the distribution for a full listing of individual contributors. 
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+	use this file except in compliance with the License. You may obtain a copy 
+	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+<!-- Marker file indicating JSF 2.2 should be enabled in the application -->
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://xmlns.jcp.org/xml/ns/javaee
+        http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+
+	<!-- This descriptor activates the JSF 2.0 Servlet -->
+
+	<application>
+		<resource-bundle>
+			<base-name>messagezh</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+
+	</application>
+
+
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+	    <navigation-case>
+	        <from-outcome>admin_console</from-outcome>
+	        <to-view-id>/pages/admin_console/admin_console.xhtml</to-view-id>
+	    </navigation-case>
+	    <navigation-case>
+	        <from-outcome>operator_console</from-outcome>
+	        <to-view-id>/pages/operator_console/operator_console.xhtml</to-view-id>
+	    </navigation-case>	   
+		<navigation-case>
+			<from-outcome>goMenu</from-outcome>
+			<to-view-id>/pages/manage/menu.xhtml</to-view-id>
+		</navigation-case>		
+			<navigation-case>
+			<from-outcome>goSelectHardware</from-outcome>
+			<to-view-id>/pages/manage/sethardware.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goManageSchedule</from-outcome>
+			<to-view-id>/pages/manage/manage_schedule.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goManageRule</from-outcome>
+			<to-view-id>/pages/manage/manage_rule.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goEditRulesn</from-outcome>
+			<to-view-id>/pages/rule/editrulesn.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goEditRulemac</from-outcome>
+			<to-view-id>/pages/rule/editrulemac.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goEditRulerange</from-outcome>
+			<to-view-id>/pages/hardware/edithardware.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goAddhardware</from-outcome>
+			<to-view-id>/pages/hardware/edithardware.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goSetPages</from-outcome>
+			<to-view-id>/pages/manage/sethardware.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goManagePages</from-outcome>
+			<to-view-id>/pages/manage/menu.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goUploadsuccess</from-outcome>
+			<to-view-id>/pages/image/uploadsucces.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goUpload</from-outcome>
+			<to-view-id>/pages/image/upload.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+</faces-config>

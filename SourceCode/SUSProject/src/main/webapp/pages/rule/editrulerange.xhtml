@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<body onload="document.charset='UTF-8';">
+	<ui:composition template="/WEB-INF/templates/plates.xhtml"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:a4j="http://richfaces.org/a4j"
+		xmlns:rich="http://richfaces.org/rich"
+		xmlns:my="http://java.sun.com/jsf/composite/components">
+
+
+		<ui:define name="content">
+			<h:outputStylesheet name="app.css" library="css" />
+			<h:outputScript target="head" name="showMessage.js" library="js" />
+			<h1>编辑规则范围列表</h1>
+		<h:form>	
+			<h:dataTable var="sch" value="#{scheduleBean.getSchedules()}" 
+		border="1" cellpadding="5">
+		<h:column>
+			<f:facet name="header">#{msgs.schId}</f:facet>
+              #{sch.id}
+        </h:column>
+        
+		<h:column>
+			<f:facet name="header">#{msgs.produceId}</f:facet>
+              #{sch.factoryId}
+        </h:column>
+		<h:column>
+			<f:facet name="header">#{msgs.hardwareId}</f:facet>
+			 #{sch.hardwareId}
+			
+        </h:column>
+        <h:column>
+			<f:facet name="header">#{msgs.trailStage}</f:facet>
+			 #{sch.trailMode}			
+        </h:column>
+         <h:column>
+			<f:facet name="header">#{msgs.startTime}</f:facet>
+			 #{sch.startTime}			
+        </h:column>
+        <h:column>
+			<f:facet name="header">#{msgs.endTime}</f:facet>
+			 #{sch.endTime}			
+        </h:column>
+	</h:dataTable>
+	</h:form>
+			
+			<h:form>
+			<!--rendered="#{sch.trailStage == 'Y'}"  -->
+	<h:dataTable var="vrulerange" value="#{scheduleBean.getAllRuleranges()}" 
+		border="1" cellpadding="5">
+		<h:column>
+			<f:facet name="header">#{msgs.sninclude}</f:facet>
+              #{vrulerange.snInclude}
+        </h:column>
+		 <h:column>
+			<f:facet name="header">#{msgs.startsn}</f:facet>
+			 #{vrulerange.startSn}
+        </h:column> <h:column>
+			<f:facet name="header">#{msgs.endsn}</f:facet>
+			 #{vrulerange.endSn}
+        </h:column> <h:column>
+			<f:facet name="header">#{msgs.macinclude}</f:facet>
+			 #{vrulerange.macInclude}
+        </h:column> <h:column>
+			<f:facet name="header">#{msgs.startmac}</f:facet>
+			 #{vrulerange.startMac}
+        </h:column> <h:column>
+			<f:facet name="header">#{msgs.endmac}</f:facet>
+			 #{vrulerange.endMac}
+        </h:column>      
+        <h:column>
+			<f:facet name="header">#{msgs.schId}</f:facet>
+			 #{vrulerange.schedule.getId()}
+        </h:column>
+		<h:column>
+			<f:facet name="header">#{msgs.delete}</f:facet>
+			<h:commandButton value="#{msgs.delete}" action="#{scheduleBean.deleteRulerange(vrulerange.id)}" />
+	    </h:column>    
+	</h:dataTable>
+		<h:panelGrid columns="3" columnClasses="titleCell"
+					style=" width : 472px;">
+					<h:outputLabel for="schId" value="#{msgs.schId}"
+						style=" width : 87px; height : 20px;" />
+					<h:inputText id="schId" value="#{newSchedule.id}"
+						style=" width : 187px; height : 20px;" />
+					<h:message for="schId" />
+				</h:panelGrid>
+			<h:panelGrid columns="3" columnClasses="titleCell"
+					style=" width : 472px;">
+					<h:outputLabel value="#{msgs.macinclude}"
+						style=" width : 87px; height : 20px;" />
+					<h:selectOneMenu value="#{newRulerange.macInclude}"
+						style=" width : 187px; height : 20px;">
+						<f:selectItem itemValue="N" itemLabel="不包含" />
+						<f:selectItem itemValue="Y" itemLabel="包含" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="3" columnClasses="titleCell"
+					style=" width : 472px;">
+					<h:outputLabel for="startmac" value="#{msgs.startmac}"
+						style=" width : 87px; height : 20px;" />
+					<h:inputText id="startmac" value="#{newRulerange.startMac}"
+						style=" width : 187px; height : 20px;" />
+					<h:message for="startmac" />
+				</h:panelGrid>
+				<h:panelGrid columns="3" columnClasses="titleCell"
+					style=" width : 472px;">
+					<h:outputLabel for="endmac" value="#{msgs.endmac}"
+						style=" width : 87px; height : 20px;" />
+					<h:inputText id="endmac" value="#{newRulerange.endMac}"
+						style=" width : 187px; height : 20px;" />
+					<h:message for="endmac" />
+				</h:panelGrid>
+				
+				<h:panelGrid columns="3" columnClasses="titleCell"
+					style=" width : 472px;">
+					<h:outputLabel value="#{msgs.sninclude}"
+						style=" width : 87px; height : 20px;" />
+					<h:selectOneMenu value="#{newRulerange.snInclude}"
+						style=" width : 187px; height : 20px;">
+						<f:selectItem itemValue="Y" itemLabel="包含" />
+						<f:selectItem itemValue="N" itemLabel="不包含" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid columns="3" columnClasses="titleCell"
+					style=" width : 472px;">
+					<h:outputLabel for="startsn" value="#{msgs.startsn}"
+						style=" width : 87px; height : 20px;" />
+					<h:inputText id="startsn" value="#{newRulerange.startSn}"
+						style=" width : 187px; height : 20px;" />
+					<h:message for="startsn" />
+				</h:panelGrid>
+				<h:panelGrid columns="3" columnClasses="titleCell"
+					style=" width : 472px;">
+					<h:outputLabel for="endsn" value="#{msgs.endsn}"
+						style=" width : 87px; height : 20px;" />
+					<h:inputText id="endsn" value="#{newRulerange.endSn}"
+						style=" width : 187px; height : 20px;" />
+					<h:message for="endsn" />
+				</h:panelGrid>
+				
+		<h:commandButton value="#{msgs.add}" action="#{scheduleBean.addRulerange()}" 
+		style=" width : 100px; height : 30px;"/>
+		
+		<h:commandButton value="#{msgs.backmenu}"
+					action="#{menuBean.goMenu()}"
+					style=" width : 100px; height : 30px;" 
+					 />
+	</h:form>	
+		
+		</ui:define>
+	</ui:composition>
+</body>
+</html>
+

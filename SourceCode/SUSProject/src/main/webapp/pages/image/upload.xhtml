@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<body >
+	<ui:composition template="/WEB-INF/templates/plates.xhtml"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:a4j="http://richfaces.org/a4j"
+		xmlns:rich="http://richfaces.org/rich"
+		xmlns:my="http://java.sun.com/jsf/composite/components">
+
+
+		<ui:define name="content">
+			<h:outputStylesheet name="app.css" library="css" />
+			<h:outputScript target="head" name="showMessage.js" library="js" />
+			<h1>上传镜像</h1>
+			<h:form>
+				<h:panelGrid columns="1" columnClasses="titleCell">
+					<h:outputText value="全量包" style ="font-size: 1.5em;"></h:outputText>
+					<rich:fileUpload id="uploadfull"
+						fileUploadListener="#{fileUploadBean.listenerfull}"
+						uploadControlLabel="上传" clearAllControlLabel="清除所有"
+						maxFilesQuantity="1" autoclear="false" acceptedTypes="zip"
+						style=" width : 374px; height : 110px;">
+						<f:facet name="label">
+							<h:outputText value="{_KB}KB from {KB}KB uploaded --- {mm}:{ss}" />
+						</f:facet>
+					</rich:fileUpload>
+				</h:panelGrid>
+				<h:panelGrid columns="1" columnClasses="titleCell">
+					<h:outputText value="增量包" style ="font-size: 1.5em;" ></h:outputText>
+					<rich:fileUpload id="uploadi"
+						fileUploadListener="#{fileUploadBean.listenerincrement}"
+						uploadControlLabel="上传" clearAllControlLabel="清除所有"
+						maxFilesQuantity="1" autoclear="false" acceptedTypes="zip"
+						style=" width : 374px; height : 110px;">
+						<f:facet name="label">
+							<h:outputText value="{_KB}KB from {KB}KB uploaded --- {mm}:{ss}" />
+						</f:facet>
+					</rich:fileUpload>
+				</h:panelGrid>
+				<h:panelGrid columns="3" columnClasses="titleCell"
+					style=" width : 472px; height : 30px;">
+					<h:outputLabel value="#{msgs.produceId}"
+						style=" width : 87px; height : 20px;" />
+					<h:outputLabel value="#{newPackage.factoryId}"
+						style=" width : 187px; height : 20px;" />			
+				</h:panelGrid>
+		
+				<h:panelGrid columns="3" columnClasses="titleCell"
+					style=" width : 472px;">
+					<h:outputLabel  value="#{msgs.hardwareId}"
+						style=" width : 87px; height : 20px;" />
+					<h:outputLabel  value="#{newPackage.hardwareId}"
+						style=" width : 187px; height : 20px;" />	
+										
+				</h:panelGrid>
+				<h:panelGrid columns="2" columnClasses="titleCell"
+					style=" width : 472px;">
+				<h:outputFormat value="#{msgs.currentversion}" style=" width : 472px; height : 20px; margin-left: 100px;">
+				<f:param value="#{fileUploadBean.currentVersion}"/>
+				</h:outputFormat>
+				</h:panelGrid>
+				<h:panelGrid columns="3" columnClasses="titleCell"
+					style=" width : 472px;">
+					<h:outputLabel for="softwareversion"
+						value="#{msgs.softwareversion}"
+						style=" width : 87px; height : 20px;" />
+					<h:inputText id="softwareversion" value="#{newPackage.softwareId}"
+						style=" width : 187px; height : 20px;" />
+					<h:message for="softwareversion" />
+				</h:panelGrid>
+				<h:panelGrid columns="3" columnClasses="titleCell"
+					style=" width : 472px;">
+					<h:outputLabel for="descreption" value="#{msgs.descreption}"
+						style=" width : 87px; height : 20px;" />
+					<h:inputText id="descreption" value="#{newPackage.discription}"
+						style=" width : 187px; height : 20px;">
+
+					</h:inputText>
+					<h:message for="descreption" />
+				</h:panelGrid>
+				<h:panelGrid columns="3" columnClasses="titleCell"
+					style=" width : 472px;">
+					<h:outputLabel  value="#{msgs.trailStage}"
+						style=" width : 87px; height : 20px;" />
+					<h:selectOneMenu value="#{newPackage.trailStage}" style=" width : 187px; height : 20px;" >
+						<f:selectItem itemValue="Y" itemLabel="测试" />
+						<f:selectItem itemValue="N" itemLabel="非测试" />
+					</h:selectOneMenu>
+					
+				</h:panelGrid>
+				<h:commandButton value="#{msgs.submit}"
+					action="#{fileUploadBean.submit}"
+					style=" width : 187px; height : 30px;" 
+					disabled ="#{fileUploadBean.buttonEnable}" />
+				<h:messages styleClass="messages" errorClass="invalid"
+					infoClass="valid" warnClass="warning" globalOnly="true" />
+			</h:form>
+			<h:form>
+					<h:commandButton value="#{msgs.backmenu}"
+					action="#{menuBean.goMenu()}"
+					style=" width : 187px; height : 30px;" 
+					 />
+			 </h:form>
+		</ui:define>
+	</ui:composition>
+	
+	
+</body>
+</html>
+

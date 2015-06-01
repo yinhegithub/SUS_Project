@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<title>#{currentUser.username} info</title>
+</h:head>
+<h:body>
+	<h1>#{msgs.user_info_title}</h1>
+	<h:form>
+		<h:panelGrid columns="3">
+			<h:outputLabel for="name" value="#{msgs.name}:" />
+			<h:Text id="name" value="#{currentUser.username}" />
+			<h:message for="name" />
+
+			<h:outputLabel for="email" value="#{msgs.email}:" />
+			<h:inputText id="email" value="#{currentUser.email}" />
+			<h:message for="email" />
+
+			<h:outputLabel for="phone" value="#{msgs.email}:" />
+			<h:inputText id="phone" value="#{currentUser.phone}" />
+			<h:message for="phone" />
+<!-- 
+			<h:outputLabel for="factory" value="#{msgs.email}:" />
+			<h:Text id="factory" value="#{currentUser.factoryId}" />
+			<h:message for="factory" />
+ -->
+		</h:panelGrid>
+
+		<h:commandButton value="#{msgs.butt_edit}" action="#{loginBean.login}" />
+	</h:form>
+
+</h:body>
+</h:html>
